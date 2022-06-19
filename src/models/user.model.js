@@ -33,7 +33,33 @@ const userSchema = mongoose.Schema(
           throw new Error('Password must contain at least one letter and one number');
         }
       },
-      private: true, // used by the toJSON plugin
+      private: true,
+    },
+    phone: {
+      type: Number,
+      required: true,
+      unique: true,
+      trim: true,
+      validate(value) {
+        if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
+          throw new Error('Invalid phone number');
+        }
+      }
+    },
+    secondaryPhone: {
+      type: Number,
+      unique: true,
+      trim: true,
+      validate(value) {
+        if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
+          throw new Error('Invalid phone number');
+        }
+      }
+    },
+    address: {
+      type: String,
+      required: true,
+      trim: true,
     },
     role: {
       type: String,
@@ -41,6 +67,10 @@ const userSchema = mongoose.Schema(
       default: 'user',
     },
     isEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
+    isPhoneVerified: {
       type: Boolean,
       default: false,
     },

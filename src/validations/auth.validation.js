@@ -6,12 +6,15 @@ const register = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
+    address: Joi.string().required(),
+    phone: Joi.number().required(),
+    secondaryPhone: Joi.number().optional(),
   }),
 };
 
 const login = {
   body: Joi.object().keys({
-    email: Joi.string().required(),
+    phone: Joi.number().required(),
     password: Joi.string().required(),
   }),
 };
