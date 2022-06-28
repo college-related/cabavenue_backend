@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
+const ApiError = require('../utils/ApiError');
+const httpStatus = require('http-status');
 
 const userSchema = mongoose.Schema(
   {
@@ -48,11 +50,11 @@ const userSchema = mongoose.Schema(
     },
     secondaryPhone: {
       type: Number,
-      unique: true,
+      // unique: true,
       trim: true,
       validate(value) {
         if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
-          throw new Error('Invalid phone number');
+          throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid phone number');
         }
       }
     },
@@ -74,6 +76,20 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    rideHistory: {
+      type: [{
+        source: String,
+        destination: String,
+        price: Number,
+        driver: {
+          type: {
+            name: String,
+            id: mongoose.SchemaTypes.ObjectId,
+          },
+        },
+      }],
+      default: [],
+    }
   },
   {
     timestamps: true,
@@ -94,6 +110,17 @@ userSchema.statics.isEmailTaken = async function (email, excludeUserId) {
   const user = await this.findOne({ email, _id: { $ne: excludeUserId } });
   return !!user;
 };
+
+/**
+ * Check if phone number is taken
+ * @param {Number} phone
+ * @param {ObjectId} [excludeUserId]
+ * @returns {Promise<boolean>}
+ */
+userSchema.statics.isPhoneNumberTaken = async function (phone, excludeUserId) {
+  const user = await this.findOne({ phone, _id: { $ne: excludeUserId }});
+  return !!user;
+}
 
 /**
  * Check if password matches the user's password
