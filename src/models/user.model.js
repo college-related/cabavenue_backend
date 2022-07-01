@@ -48,16 +48,16 @@ const userSchema = mongoose.Schema(
         }
       }
     },
-    secondaryPhone: {
-      type: Number,
-      // unique: true,
-      trim: true,
-      validate(value) {
-        if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
-          throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid phone number');
-        }
-      }
-    },
+    // secondaryPhone: {
+    //   type: Number,
+    //   // unique: true,
+    //   trim: true,
+    //   validate(value) {
+    //     if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
+    //       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid phone number');
+    //     }
+    //   }
+    // },
     address: {
       type: String,
       required: true,
