@@ -14,7 +14,7 @@ const { tokenTypes } = require('../config/tokens');
 const loginUserWithPhoneAndPassword = async (phone, password) => {
   const user = await userService.getUserByPhone(phone);
   if (!user || !(await user.isPasswordMatch(password))) {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect email or password');
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'Incorrect phone number or password');
   }
   return user;
 };
