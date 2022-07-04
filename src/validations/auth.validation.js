@@ -9,6 +9,7 @@ const register = {
     address: Joi.string().required(),
     phone: Joi.number().required(),
     secondaryPhone: Joi.number().optional(),
+    role: Joi.string().optional().valid('user', 'driver', 'admin'),
   }),
 };
 
