@@ -89,6 +89,13 @@ const userSchema = mongoose.Schema(
         },
       }],
       default: [],
+    },
+    vehicleData: {
+      type: {
+        plateNumber: String,
+        color: String,
+        model: String,
+      },
     }
   },
   {
