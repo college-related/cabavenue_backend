@@ -48,16 +48,6 @@ const userSchema = mongoose.Schema(
         }
       }
     },
-    // secondaryPhone: {
-    //   type: Number,
-    //   // unique: true,
-    //   trim: true,
-    //   validate(value) {
-    //     if(value.toString().length!=10||(value.toString()[0]+value.toString()[1]!=='98')){
-    //       throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid phone number');
-    //     }
-    //   }
-    // },
     address: {
       type: String,
       required: true,
@@ -87,6 +77,14 @@ const userSchema = mongoose.Schema(
             id: mongoose.SchemaTypes.ObjectId,
           },
         },
+        rating: {
+          type: Number,
+          default: 0,
+        },
+        createdAt: {
+          type: Date,
+          default: new Date(),
+        },
       }],
       default: [],
     },
@@ -96,7 +94,11 @@ const userSchema = mongoose.Schema(
         color: String,
         model: String,
       },
-    }
+    },
+    isAvailable: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
