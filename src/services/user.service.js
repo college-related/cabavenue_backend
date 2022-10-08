@@ -91,6 +91,33 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const getDashboard = async (user) => {
+  const dashboard = {
+    totalRides: user.rideHistory.length,
+    totalEarnings: user.rideHistory.reduce((total, ride) => total + ride.price, 0),
+    totalRating: calculateTotalRating(user.rideHistory),
+    totalsToday: {
+      totalRides: user.rideHistory.filter(ride => ride?.createdAt?.toDateString() === new Date().toDateString()).length,
+      totalEarnings: user.rideHistory.reduce((total, ride) => total + (ride?.createdAt?.toDateString() === new Date().toDateString() ? ride.price : 0), 0),
+    },
+  };
+
+  return dashboard;
+};
+
+const calculateTotalRating  = (rideHistory) => {
+  const totalZeroRating = rideHistory.filter(ride => ride.rating === 0).length * 0;
+  const totalOneRating = rideHistory.filter(ride => ride.rating === 1).length * 1;
+  const totalTwoRating = rideHistory.filter(ride => ride.rating === 2).length * 2;
+  const totalThreeRating = rideHistory.filter(ride => ride.rating === 3).length * 3;
+  const totalFourRating = rideHistory.filter(ride => ride.rating === 4).length * 4;
+  const totalFiveRating = rideHistory.filter(ride => ride.rating === 5).length * 5;
+
+  const totalRating = totalZeroRating + totalOneRating + totalTwoRating + totalThreeRating + totalFourRating + totalFiveRating;
+
+  return totalRating / rideHistory.length;
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -99,4 +126,5 @@ module.exports = {
   getUserByPhone,
   updateUserById,
   deleteUserById,
+  getDashboard,
 };
