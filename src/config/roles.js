@@ -1,6 +1,6 @@
 const allRoles = {
   user: [],
-  admin: ['getUsers', 'manageUsers', 'getAreas', 'createArea'],
+  admin: ['getUsers', 'manageUsers', 'getAreas', 'createArea', 'manageAreas',],
   driver: [],
 };
 
