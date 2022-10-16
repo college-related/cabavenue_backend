@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route("/")
   .post(auth("manageAreas"), validate(areaValidation.createArea), areaController.createArea)
-  .get(auth("getAreas"), areaController.getAreas);
+  .get(areaController.getAreas);
 
 router
   .route("/:areaId")
