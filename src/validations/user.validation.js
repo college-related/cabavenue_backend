@@ -30,6 +30,12 @@ const getUser = {
   }),
 };
 
+const getUsersByRole = {
+  params: Joi.object().keys({
+    role: Joi.string().required().valid('user', 'admin', 'driver'),
+  }),
+}
+
 const updateUser = {
   params: Joi.object().keys({
     userId: Joi.required().custom(objectId),
@@ -60,4 +66,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  getUsersByRole,
 };

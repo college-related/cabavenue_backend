@@ -31,6 +31,11 @@ const queryUsers = async (filter, options) => {
   return users;
 };
 
+const queryUsersByRole = async (role) => {
+  let users = await User.find({ role: role });
+  return users;
+}
+
 /**
  * Get user by id
  * @param {ObjectId} id
@@ -127,4 +132,5 @@ module.exports = {
   updateUserById,
   deleteUserById,
   getDashboard,
+  queryUsersByRole,
 };

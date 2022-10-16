@@ -29,6 +29,11 @@ const getUsers = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getUsersByRole = catchAsync(async (req, res) => {
+  const result = await userService.queryUsersByRole(req.params.role);
+  res.send(result);
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -64,4 +69,5 @@ module.exports = {
   updateUser,
   deleteUser,
   getDashboard,
+  getUsersByRole,
 };
