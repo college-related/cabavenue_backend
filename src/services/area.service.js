@@ -22,7 +22,7 @@ const updateArea = async (id, updatedBody) => {
   if(!area){
     throw new ApiError(httpStatus.NOT_FOUND, "Area not found");
   }
-  if(await Area.isNameTaken(updatedBody.name)){
+  if(await Area.isNameTaken(updatedBody.name) && area.name !== updatedBody.name){
     throw new ApiError(httpStatus.BAD_REQUEST, "Area name already taken");
   }
   Object.assign(area, updatedBody);
