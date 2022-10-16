@@ -10,6 +10,7 @@ const createUser = {
     phone: Joi.number().required(),
     secondaryPhone: Joi.number().optional(),
     address: Joi.string().required(),
+    area: Joi.object().optional(),
   }),
 };
 
@@ -35,12 +36,14 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
-      name: Joi.string(),
-      phone: Joi.number(),
-      secondaryPhone: Joi.number(),
-      address: Joi.string(),
+      email: Joi.string().email().optional(),
+      password: Joi.string().custom(password).optional(),
+      name: Joi.string().optional(),
+      phone: Joi.number().optional(),
+      secondaryPhone: Joi.number().optional(),
+      address: Joi.string().optional(),
+      area: Joi.object().optional(),
+      isEnabled: Joi.boolean().optional(),
     })
     .min(1),
 };

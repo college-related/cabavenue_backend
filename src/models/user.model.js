@@ -3,8 +3,6 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
-// const ApiError = require('../utils/ApiError');
-// const httpStatus = require('http-status');
 
 const userSchema = mongoose.Schema(
   {
@@ -98,6 +96,16 @@ const userSchema = mongoose.Schema(
     isAvailable: {
       type: Boolean,
       default: false,
+    },
+    area: {
+      type: {
+        name: String,
+        id: mongoose.SchemaTypes.ObjectId,
+      },
+    },
+    isEnabled: {
+      type: Boolean,
+      default: true,
     },
   },
   {

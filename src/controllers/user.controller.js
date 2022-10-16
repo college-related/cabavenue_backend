@@ -3,9 +3,22 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
+const { Area } = require('../models');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
+
+  if(req.body.area) {
+    const area = await Area.findById(userBody.area.id);
+
+    if(!area) {
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Area not found');
+    }
+
+    area.driverList.push(user._id);
+    area.save();
+  }
+
   res.status(httpStatus.CREATED).send(user);
 });
 

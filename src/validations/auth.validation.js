@@ -11,6 +11,7 @@ const register = {
     secondaryPhone: Joi.number().optional(),
     vehicleData: Joi.object().optional(),
     role: Joi.string().optional().valid('user', 'driver', 'admin'),
+    area: Joi.object().optional(),
   }),
 };
 
