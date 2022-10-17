@@ -18,6 +18,10 @@ router
   .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
 router
+  .route('/toogleAvailability/:userId')
+  .patch(auth('toggleAvailability'), validate(userValidation.getUser), userController.toggleAvailability);
+
+router
   .route('/dashboard/:userId')
   .get(auth(), userController.getDashboard)
 

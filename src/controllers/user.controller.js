@@ -62,6 +62,16 @@ const getDashboard = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(dashboard);
 });
 
+const toggleAvailability = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const updatedUser = await userService.toggleAvailability(user);
+
+  res.status(httpStatus.OK).send(updatedUser);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -70,4 +80,5 @@ module.exports = {
   deleteUser,
   getDashboard,
   getUsersByRole,
+  toggleAvailability,
 };

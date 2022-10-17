@@ -50,6 +50,8 @@ const updateUser = {
       address: Joi.string().optional(),
       area: Joi.object().optional(),
       isEnabled: Joi.boolean().optional(),
+      vehicleData: Joi.object().optional(),
+      isAvailable: Joi.boolean().optional(),
     })
     .min(1),
 };

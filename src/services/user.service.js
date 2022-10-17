@@ -123,6 +123,12 @@ const calculateTotalRating  = (rideHistory) => {
   return totalRating / rideHistory.length;
 }
 
+const toggleAvailability = async (user) => {
+  user.isAvailable = !user.isAvailable;
+  await user.save();
+  return user;
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -133,4 +139,5 @@ module.exports = {
   deleteUserById,
   getDashboard,
   queryUsersByRole,
+  toggleAvailability,
 };
