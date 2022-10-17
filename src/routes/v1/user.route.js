@@ -25,10 +25,6 @@ router
   .route('/dashboard/:userId')
   .get(auth(), userController.getDashboard)
 
-router
-  .route('/byRole/:role')
-  .get(auth('getUsers'), validate(userValidation.getUsersByRole), userController.getUsersByRole);
-
 module.exports = router;
 
 /**

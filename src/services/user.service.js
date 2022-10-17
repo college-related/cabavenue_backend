@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, Area, Report } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -123,6 +123,15 @@ const calculateTotalRating  = (rideHistory) => {
   return totalRating / rideHistory.length;
 }
 
+const getAdminDashboard = async () => {
+  return {
+    totalUsers: await User.find({ role: 'user' }).countDocuments(),
+    totalDrivers: await User.find({ role: 'driver' }).countDocuments(),
+    totalAreas: await Area.find().countDocuments(),
+    totalReports: await Report.find().countDocuments(),
+  }
+}
+
 const toggleAvailability = async (user) => {
   user.isAvailable = !user.isAvailable;
   await user.save();
@@ -140,4 +149,5 @@ module.exports = {
   getDashboard,
   queryUsersByRole,
   toggleAvailability,
+  getAdminDashboard,
 };

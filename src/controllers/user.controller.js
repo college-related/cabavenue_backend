@@ -62,6 +62,12 @@ const getDashboard = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(dashboard);
 });
 
+const getAdminDashboard = catchAsync(async (req, res) => {
+  const dashboard = await userService.getAdminDashboard();
+
+  res.status(httpStatus.OK).send(dashboard);
+});
+
 const toggleAvailability = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -81,4 +87,5 @@ module.exports = {
   getDashboard,
   getUsersByRole,
   toggleAvailability,
+  getAdminDashboard,
 };

@@ -1,6 +1,15 @@
 const allRoles = {
   user: ['getAreas', 'manageReports'],
-  admin: ['getUsers', 'manageUsers', 'getAreas', 'createArea', 'manageAreas', 'deleteReport', 'getReports'],
+  admin: [
+    'getUsers',
+    'manageUsers',
+    'getAreas',
+    'createArea',
+    'manageAreas',
+    'deleteReport',
+    'getReports',
+    'dashboardManage',
+  ],
   driver: ['toggleAvailability', 'manageReports'],
 };
 
