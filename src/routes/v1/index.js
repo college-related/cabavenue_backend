@@ -5,6 +5,7 @@ const documentRoute = require('./document.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 const areaRoute = require('./area.route');
+const reportRoute = require('./report.route');
 
 const router = express.Router();
 
@@ -24,6 +25,10 @@ const defaultRoutes = [
   {
     path: '/areas',
     route: areaRoute,
+  },
+  {
+    path: '/reports',
+    route: reportRoute,
   },
 ];
 
