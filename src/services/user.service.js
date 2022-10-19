@@ -97,15 +97,27 @@ const deleteUserById = async (userId) => {
 };
 
 const getDashboard = async (user) => {
-  const dashboard = {
-    totalRides: user.rideHistory.length,
-    totalEarnings: user.rideHistory.reduce((total, ride) => total + ride.price, 0),
-    totalRating: calculateTotalRating(user.rideHistory),
+  let dashboard = {
+    totalRides: 0,
+    totalEarnings: 0,
+    totalRating: 0,
     totalsToday: {
-      totalRides: user.rideHistory.filter(ride => ride?.createdAt?.toDateString() === new Date().toDateString()).length,
-      totalEarnings: user.rideHistory.reduce((total, ride) => total + (ride?.createdAt?.toDateString() === new Date().toDateString() ? ride.price : 0), 0),
-    },
-  };
+      totalRides: 0,
+      totalEarnings: 0,
+    }
+  }
+
+  if(user.rideHistory.length > 0) {
+    dashboard = {
+      totalRides: user.rideHistory.length,
+      totalEarnings: user.rideHistory.reduce((total, ride) => total + ride.price, 0),
+      totalRating: calculateTotalRating(user.rideHistory),
+      totalsToday: {
+        totalRides: user.rideHistory.filter(ride => ride?.createdAt?.toDateString() === new Date().toDateString()).length,
+        totalEarnings: user.rideHistory.reduce((total, ride) => total + (ride?.createdAt?.toDateString() === new Date().toDateString() ? ride.price : 0), 0),
+      },
+    };
+  }
 
   return dashboard;
 };
