@@ -12,6 +12,8 @@ const register = {
     vehicleData: Joi.object().optional(),
     role: Joi.string().optional().valid('user', 'driver', 'admin'),
     area: Joi.object().optional(),
+    documents: Joi.array().optional(),
+    profileUrl: Joi.string().optional(),
   }),
 };
 

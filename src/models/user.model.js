@@ -107,6 +107,12 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    documents: {
+      type: [],
+    },
+    profileUrl: {
+      type: String,
+    }
   },
   {
     timestamps: true,

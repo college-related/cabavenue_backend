@@ -52,6 +52,8 @@ const updateUser = {
       isEnabled: Joi.boolean().optional(),
       vehicleData: Joi.object().optional(),
       isAvailable: Joi.boolean().optional(),
+      documents: Joi.array().optional(),
+      profileUrl: Joi.string().optional(),
     })
     .min(1),
 };
