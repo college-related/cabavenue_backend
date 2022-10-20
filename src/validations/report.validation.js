@@ -12,13 +12,13 @@ const createReport = {
 
 const getReport = {
     params: Joi.object().keys({
-        userId: Joi.string().required().custom(objectId),
+        reportId: Joi.string().required().custom(objectId),
     }),
 };
 
 const deleteReport = {
     params: Joi.object().keys({
-        userId: Joi.string().required().custom(objectId),
+        reportId: Joi.string().required().custom(objectId),
     }),
 }
 

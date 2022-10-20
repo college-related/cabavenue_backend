@@ -23,7 +23,12 @@ const deleteReport = async (id) => {
     if(!report){
         throw new ApiError(httpStatus.NOT_FOUND, "Report not found");
     }
-    await report.remove();
+
+    const reports = await Report.find({ userId: report.userId });
+
+    reports.forEach(async r => {
+        await r.remove();
+    })
 }
 
 module.exports = {
