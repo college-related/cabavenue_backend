@@ -54,6 +54,7 @@ const updateUser = {
       isAvailable: Joi.boolean().optional(),
       documents: Joi.array().optional(),
       profileUrl: Joi.string().optional(),
+      favoritePlaces: Joi.array().optional(),
     })
     .min(1),
 };
