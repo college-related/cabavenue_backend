@@ -7,6 +7,19 @@ const rideController = require('../../controllers/ride.controller');
 const router = express.Router();
 
 router
+  .route('/')
+  .post(auth(), validate(rideValidation.createRide), rideController.createRide);
+
+router
+  .route('/:rideId')
+  .patch(auth(), validate(rideValidation.updateRide), rideController.updateRide)
+  .delete(auth(), validate(rideValidation.deleteRide), rideController.deleteRide);
+
+router
+  .route('/my/:driverId')
+  .get(auth(), rideController.getRides);
+
+router
   .route('/:lat/:lng')
   .get(auth(), validate(rideValidation.searchRide), rideController.searchRides);
 
