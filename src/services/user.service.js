@@ -96,6 +96,19 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+const getDriversByArea = async (areaId) => {
+  const users = await User.find({ role: 'driver', area: areaId});
+  const drivers = users.map(user => {
+    return {
+      id: user._id,
+      name: user.name,
+      vehicle: user.vehicleData,
+      img: user.profileUrl,
+    }
+  });
+  return drivers;
+}
+
 const getDashboard = async (user) => {
   let dashboard = {
     totalRides: 0,
@@ -162,4 +175,5 @@ module.exports = {
   queryUsersByRole,
   toggleAvailability,
   getAdminDashboard,
+  getDriversByArea,
 };

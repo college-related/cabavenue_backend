@@ -98,10 +98,8 @@ const userSchema = mongoose.Schema(
       default: false,
     },
     area: {
-      type: {
-        name: String,
-        id: mongoose.SchemaTypes.ObjectId,
-      },
+      type: mongoose.Types.ObjectId,
+      ref: 'Area',
     },
     isEnabled: {
       type: Boolean,

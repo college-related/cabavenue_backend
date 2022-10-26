@@ -6,6 +6,7 @@ const config = require('../../config/config');
 const areaRoute = require('./area.route');
 const reportRoute = require('./report.route');
 const adminRoute = require('./admin.route');
+const rideRoute = require('./ride.route');
 
 const router = express.Router();
 
@@ -30,6 +31,10 @@ const defaultRoutes = [
     path: '/admin',
     route: adminRoute,
   },
+  {
+    path: '/rides',
+    route: rideRoute,
+  }
 ];
 
 const devRoutes = [
