@@ -31,6 +31,10 @@ router
   .route('/dashboard/:userId')
   .get(auth(), userController.getDashboard)
 
+router
+  .route('/emergencyCabs/all')
+  .get(auth(), userController.getEmergencyCabs);
+
 module.exports = router;
 
 /**

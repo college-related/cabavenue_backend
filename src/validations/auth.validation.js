@@ -14,6 +14,7 @@ const register = {
     area: Joi.object().optional(),
     documents: Joi.array().optional(),
     profileUrl: Joi.string().optional(),
+    provideEmergencyService: Joi.boolean().optional(),
   }),
 };
 

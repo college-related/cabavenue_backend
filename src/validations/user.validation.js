@@ -55,6 +55,8 @@ const updateUser = {
       documents: Joi.array().optional(),
       profileUrl: Joi.string().optional(),
       favoritePlaces: Joi.array().optional(),
+      provideEmergencyService: Joi.boolean().optional(),
+      isInRide: Joi.boolean().optional(),
     })
     .min(1),
 };

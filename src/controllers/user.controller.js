@@ -112,6 +112,12 @@ const deleteFavoritePlaces = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(updatedUser);
 });
 
+const getEmergencyCabs = catchAsync(async (req, res) => {
+  const emergencyCabs = await userService.getEmergencyCabs();
+
+  res.status(httpStatus.OK).send(emergencyCabs);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -125,4 +131,5 @@ module.exports = {
   favoritePlaces,
   getFavoritePlaces,
   deleteFavoritePlaces,
+  getEmergencyCabs,
 };

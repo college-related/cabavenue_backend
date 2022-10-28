@@ -193,6 +193,18 @@ const deleteFavoritePlaces = async (user, index) => {
   return user;
 }
 
+const getEmergencyCabs = async () => {
+  const users = await User.find({ role: 'driver', isAvailable: true, provideEmergencyService: true, isInRide: false });
+  const drivers = users.map(user => {
+    return {
+      name: user.name,
+      vehicle: user.vehicleData,
+      phone: user.phone,
+    }
+  });
+  return drivers;
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -209,4 +221,5 @@ module.exports = {
   favoritePlaces,
   getFavoritePlaces,
   deleteFavoritePlaces,
+  getEmergencyCabs,
 };

@@ -121,7 +121,14 @@ const userSchema = mongoose.Schema(
         iconIndex: Number,
       }],
       default: [],
-    }
+    },
+    provideEmergencyService: {
+      type: Boolean,
+    },
+    isInRide: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
