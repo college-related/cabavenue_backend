@@ -18,6 +18,12 @@ router
   .delete(auth('manageUsers'), validate(userValidation.deleteUser), userController.deleteUser);
 
 router
+  .route('/favorite/:userId')
+  .get(auth('getUsers'), validate(userValidation.getUser), userController.getFavoritePlaces)
+  .patch(auth('manageUsers'), validate(userValidation.favoriteUser), userController.favoritePlaces)
+  .delete(auth('manageUsers'), validate(userValidation.deleteFavorite), userController.deleteFavoritePlaces);
+
+router
   .route('/toogleAvailability/:userId')
   .patch(auth('toggleAvailability'), validate(userValidation.getUser), userController.toggleAvailability);
 

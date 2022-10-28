@@ -78,6 +78,40 @@ const toggleAvailability = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(updatedUser);
 });
 
+const favoritePlaces = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const updatedUser = await userService.favoritePlaces(user, req.body);
+
+  res.status(httpStatus.OK).send(updatedUser);
+});
+
+const getFavoritePlaces = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const favoritePlaces = await userService.getFavoritePlaces(user);
+
+  res.status(httpStatus.OK).send(favoritePlaces);
+});
+
+const deleteFavoritePlaces = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.userId);
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const updatedUser = await userService.deleteFavoritePlaces(user, req.body.index);
+
+  res.status(httpStatus.OK).send(updatedUser);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -88,4 +122,7 @@ module.exports = {
   getUsersByRole,
   toggleAvailability,
   getAdminDashboard,
+  favoritePlaces,
+  getFavoritePlaces,
+  deleteFavoritePlaces,
 };

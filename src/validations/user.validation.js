@@ -65,6 +65,29 @@ const deleteUser = {
   }),
 };
 
+const favoriteUser = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    givenName: Joi.string().required(),
+    latitude: Joi.number().required(),
+    longitude: Joi.number().required(),
+    iconIndex: Joi.number().required(),
+    index: Joi.number().optional(),
+  }),
+}
+
+const deleteFavorite = {
+  params: Joi.object().keys({
+    userId: Joi.string().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    index: Joi.number().required(),
+  }),
+}
+
 module.exports = {
   createUser,
   getUsers,
@@ -72,4 +95,6 @@ module.exports = {
   updateUser,
   deleteUser,
   getUsersByRole,
+  favoriteUser,
+  deleteFavorite,
 };

@@ -118,6 +118,7 @@ const userSchema = mongoose.Schema(
         givenName: String,
         latitude: Number,
         longitude: Number,
+        iconIndex: Number,
       }],
       default: [],
     }

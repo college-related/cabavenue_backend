@@ -163,6 +163,36 @@ const toggleAvailability = async (user) => {
   return user;
 }
 
+const favoritePlaces = async (user, place) => {
+  if(place.index !== undefined) {
+    for(let i = 0; i < user.favoritePlaces.length; i++) {
+      if(user.favoritePlaces[i].iconIndex === place.index) {
+        user.favoritePlaces[i] = place;
+        break;
+      }
+    }
+  }else{
+    user.favoritePlaces.push(place);
+  }
+  await user.save();
+  return user;
+}
+
+const getFavoritePlaces = async (user) => {
+  const fav = {
+    favoritePlaces: user.favoritePlaces,
+    iconList: user.favoritePlaces.map(place => place.iconIndex),
+  }
+
+  return fav;
+}
+
+const deleteFavoritePlaces = async (user, index) => {
+  user.favoritePlaces = user.favoritePlaces.filter(place => place.iconIndex !== index);
+  await user.save();
+  return user;
+}
+
 module.exports = {
   createUser,
   queryUsers,
@@ -176,4 +206,7 @@ module.exports = {
   toggleAvailability,
   getAdminDashboard,
   getDriversByArea,
+  favoritePlaces,
+  getFavoritePlaces,
+  deleteFavoritePlaces,
 };
