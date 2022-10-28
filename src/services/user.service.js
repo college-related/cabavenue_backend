@@ -97,7 +97,7 @@ const deleteUserById = async (userId) => {
 };
 
 const getDriversByArea = async (areaId) => {
-  const users = await User.find({ role: 'driver', area: areaId});
+  const users = await User.find({ role: 'driver', area: areaId, isAvailable: true, isInRide: false });
   const drivers = users.map(user => {
     return {
       id: user._id,
