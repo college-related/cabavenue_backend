@@ -179,9 +179,15 @@ const favoritePlaces = async (user, place) => {
 }
 
 const getFavoritePlaces = async (user) => {
-  const fav = {
-    favoritePlaces: user.favoritePlaces,
-    iconList: user.favoritePlaces.map(place => place.iconIndex),
+  let fav = {
+    favoritePlaces: [],
+    iconList: [],
+  }
+  if(user.favoritePlaces.length > 0){
+    fav = {
+      favoritePlaces: user.favoritePlaces,
+      iconList: user.favoritePlaces.map(place => place.iconIndex),
+    }
   }
 
   return fav;
