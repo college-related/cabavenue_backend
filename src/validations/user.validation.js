@@ -72,7 +72,6 @@ const favoriteUser = {
     userId: Joi.string().custom(objectId),
   }),
   body: Joi.object().keys({
-    name: Joi.string().required(),
     givenName: Joi.string().required(),
     latitude: Joi.number().required(),
     longitude: Joi.number().required(),

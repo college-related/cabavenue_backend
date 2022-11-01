@@ -1,4 +1,6 @@
 const httpStatus = require('http-status');
+const fetch = require('node-fetch');
+const config = require('../config/config');
 const { User, Area, Report } = require('../models');
 const ApiError = require('../utils/ApiError');
 
@@ -167,11 +169,22 @@ const favoritePlaces = async (user, place) => {
   if(place.index !== undefined) {
     for(let i = 0; i < user.favoritePlaces.length; i++) {
       if(user.favoritePlaces[i].iconIndex === place.index) {
+        if(user.favoritePlaces[i].latitude !== place.latitude || user.favoritePlaces[i].longitude !== place.longitude) {
+          const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${place.latitude}&lon=${place.longitude}&apiKey=${config.geoapify.key}`)
+          const data = await res.json();
+          place['name'] = data.features[0].properties.name;
+        }else{
+          place['name'] = user.favoritePlaces[i].name;
+        }
         user.favoritePlaces[i] = place;
         break;
       }
     }
   }else{
+    const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${place.latitude}&lon=${place.longitude}&apiKey=${config.geoapify.key}`)
+    const data = await res.json();
+    place['name'] = data.features[0].properties.name;
+
     user.favoritePlaces.push(place);
   }
   await user.save();

@@ -1,4 +1,6 @@
 const httpStatus = require("http-status");
+const fetch = require("node-fetch");
+const config = require("../config/config");
 const { Ride } = require("../models");
 const { areaService, userService } = require("../services");
 const catchAsync = require("../utils/catchAsync");
@@ -21,6 +23,10 @@ const searchRides = catchAsync(async (req, res) => {
 })
 
 const createRide = catchAsync(async (req, res) => {
+  const result = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${req.body.source.latitude}&lon=${req.body.source.longitude}&apiKey=${config.geoapify.key}`)
+  const data = await result.json();
+  req.body.source.name = data.features[0].properties.road ?? data.features[0].properties.name;
+
   const ride = await Ride.create(req.body);
   res.status(httpStatus.CREATED).send(ride);
 })
