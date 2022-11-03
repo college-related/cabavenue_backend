@@ -42,6 +42,30 @@ const updateRide = catchAsync(async (req, res) => {
   const { rideId } = req.params;
 
   const ride = await Ride.findByIdAndUpdate(rideId, req.body, { new: true });
+
+  const driver = await userService.getUserById(ride.driver);
+  if(!driver){
+    throw new ApiError(httpStatus.NOT_FOUND, "Driver not found");
+  }
+  const passenger = await userService.getUserById(ride.passenger);
+  if(!passenger){
+    throw new ApiError(httpStatus.NOT_FOUND, "Passenger not found");
+  }
+
+  if(req.body.status === "accepted") {
+    driver.isInRide = true;
+    driver.isAvailable = false;
+
+    passenger.isInRide = true;
+  }else{
+    driver.isInRide = false;
+    driver.isAvailable = true;
+
+    passenger.isInRide = false;
+  }
+  await driver.save();
+  await passenger.save();
+
   res.status(httpStatus.OK).send(ride);
 });
 

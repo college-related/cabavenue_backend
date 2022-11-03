@@ -1,11 +1,11 @@
 var admin = require('firebase-admin');
 
-class NotificationManager {
+class NotificationManagerDriver {
 static initialized = false;
 static init() {
   if (!this.initialized) {
     this.initialized = true;
-    var serviceAccount = require('./config/cabavenue-drive-1f73c18535e4.json');
+    var serviceAccount = require('../config/cabavenue-drive-1f73c18535e4.json');
     admin.initializeApp({
       credential: admin.credential.cert(serviceAccount),
     });
@@ -37,6 +37,6 @@ static async sendToDevices(notification, devices) {
     });
 }}
 
-NotificationManager.init();
+NotificationManagerDriver.init();
 
-module.exports.NotificationManager = NotificationManager;
+module.exports.NotificationManagerDriver = NotificationManagerDriver;

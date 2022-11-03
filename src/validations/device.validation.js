@@ -26,7 +26,7 @@ const updateDevice = {
 
 const deleteDevice = {
   params: Joi.object().keys({
-    deviceId: Joi.string().required().custom(objectId),
+    deviceId: Joi.string().required(),
   }),
 }
 

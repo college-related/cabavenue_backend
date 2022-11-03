@@ -1,7 +1,8 @@
 const httpStatus = require("http-status");
 const { Device } = require("../models");
-const { NotificationManager } = require("../NotificationManager");
-const ApiError = require("../utils/ApiError")
+const { NotificationManagerDriver } = require("../helper/NotificationManagerDriver");
+const ApiError = require("../utils/ApiError");
+const { NotificationManagerPassenger } = require("../helper/NotificationManagerPassenger");
 
 const createDevice = async (deviceBody) => {
   return Device.create(deviceBody);
@@ -26,7 +27,7 @@ const updateDevice = async (id, updatedBody) => {
 }
 
 const deleteDevice = async (id) => {
-  const device = await getDevice(id);
+  const device = await Device.findOne({ firebaseToken: id });
   if(!device){
     throw new ApiError(httpStatus.NOT_FOUND, "Device not found");
   }
@@ -34,15 +35,23 @@ const deleteDevice = async (id) => {
 }
 
 const notifyDevice = async (userId, body) => {
-  const { title, desc } = body;
+  const { title, desc, to } = body;
 
-  const device = await Device.findOne({ user: userId });
+  const device = await Device.find({ user: userId });
 
-  if(!device){
-    throw new ApiError(httpStatus.NOT_FOUND, "Device not found");
+  const notification = {
+    title: title,
+    body: desc,
   }
 
-  NotificationManager.sendToDevices({title: title, body: desc}, [device.firebaseToken]);
+  const firebaseTokens = device.map((device) => device.firebaseToken);
+
+  if(to === 'driver'){
+    NotificationManagerDriver.sendToDevices(notification, firebaseTokens);
+  }else{
+    console.log("passenger lai send bhayo???")
+    NotificationManagerPassenger.sendToDevices(notification, firebaseTokens);
+  }
 }
 
 const getDeviceByFirebaseToken = async (firebaseToken) => {
