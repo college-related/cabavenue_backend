@@ -75,6 +75,12 @@ const userSchema = mongoose.Schema(
             id: mongoose.SchemaTypes.ObjectId,
           },
         },
+        user: {
+          type: {
+            name: String,
+            id: mongoose.SchemaTypes.ObjectId,
+          },
+        },
         rating: {
           type: Number,
           default: 0,

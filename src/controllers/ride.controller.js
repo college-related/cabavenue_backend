@@ -33,8 +33,15 @@ const createRide = catchAsync(async (req, res) => {
 
 const getRides = catchAsync(async (req, res) => {
   const { driverId } = req.params;
+  const { filter } = req.query;
 
-  const rides = await Ride.find({ driver: driverId }, { source: 1, destination: 1, price: 1, createdAt: 1, passenger: 1, driver: 1 });
+  let rides;
+  if(filter === "all") {
+    rides = await Ride.find({ driver: driverId }, { source: 1, destination: 1, price: 1, createdAt: 1, passenger: 1, driver: 1, status: 1 });
+  }else{
+    rides = await Ride.find({ driver: driverId, status: { $ne: "completed" } }, { source: 1, destination: 1, price: 1, createdAt: 1, passenger: 1, driver: 1, status: 1 });
+  }
+
   res.status(httpStatus.OK).send(rides);
 })
 
@@ -60,8 +67,38 @@ const updateRide = catchAsync(async (req, res) => {
   }else{
     driver.isInRide = false;
     driver.isAvailable = true;
+    driver.rideHistory.push({
+      source: ride.source.name,
+      destination: ride.destination.name,
+      price: ride.price,
+      driver: {
+        name: driver.name,
+        id: driver._id,
+      },
+      user: {
+        name: passenger.name,
+        id: passenger._id,
+      },
+      rating: 0,
+      createdAt: ride.createdAt,
+    });
 
     passenger.isInRide = false;
+    passenger.rideHistory.push({
+      source: ride.source.name,
+      destination: ride.destination.name,
+      price: ride.price,
+      driver: {
+        name: driver.name,
+        id: driver._id,
+      },
+      user: {
+        name: passenger.name,
+        id: passenger._id,
+      },
+      rating: 0,
+      createdAt: ride.createdAt,
+    });
   }
   await driver.save();
   await passenger.save();

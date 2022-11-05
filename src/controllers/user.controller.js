@@ -118,6 +118,17 @@ const getEmergencyCabs = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(emergencyCabs);
 });
 
+const getRideHistory = catchAsync(async (req, res) => {
+  const user = await userService.getUserById(req.params.userId);
+
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+
+  const rideHistory = user.rideHistory;
+  res.status(httpStatus.OK).send(rideHistory);
+});
+
 module.exports = {
   createUser,
   getUsers,
@@ -132,4 +143,5 @@ module.exports = {
   getFavoritePlaces,
   deleteFavoritePlaces,
   getEmergencyCabs,
+  getRideHistory,
 };

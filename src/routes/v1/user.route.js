@@ -24,6 +24,10 @@ router
   .delete(auth('manageUsers'), validate(userValidation.deleteFavorite), userController.deleteFavoritePlaces);
 
 router
+  .route('/history/:userId')
+  .get(auth('getUsers'), validate(userValidation.getUser), userController.getRideHistory);
+
+router
   .route('/toogleAvailability/:userId')
   .patch(auth('toggleAvailability'), validate(userValidation.getUser), userController.toggleAvailability);
 

@@ -147,7 +147,7 @@ const calculateTotalRating  = (rideHistory) => {
 
   const totalRating = totalZeroRating + totalOneRating + totalTwoRating + totalThreeRating + totalFourRating + totalFiveRating;
 
-  return totalRating / rideHistory.length;
+  return parseInt(totalRating / rideHistory.length);
 }
 
 const getAdminDashboard = async () => {
