@@ -4,10 +4,11 @@ const config = require("../config/config");
 const { Ride } = require("../models");
 const { areaService, userService } = require("../services");
 const catchAsync = require("../utils/catchAsync");
-const { calculateDistance } = require("../utils/rides");
+const { calculateDistance, calculatePrice } = require("../utils/rides");
 
 const searchRides = catchAsync(async (req, res) => {
   const { lat, lng } = req.params;
+  const { source, destination } = req.body;
 
   const areas = await areaService.getAreas();
 
@@ -16,9 +17,12 @@ const searchRides = catchAsync(async (req, res) => {
 
   const drivers = await userService.getDriversByArea(areas[index]._id);
 
+  const rideDistance = calculateDistance(source.latitude, destination.latitude, source.longitude, destination.longitude);
+  const price = calculatePrice(rideDistance);
+
   res.status(httpStatus.OK).send({
     drivers: drivers,
-    price: 300,
+    price,
   });
 })
 

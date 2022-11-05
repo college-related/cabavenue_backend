@@ -21,7 +21,7 @@ router
 
 router
   .route('/:lat/:lng')
-  .get(auth(), validate(rideValidation.searchRide), rideController.searchRides);
+  .post(auth(), validate(rideValidation.searchRide), rideController.searchRides);
 
 // router
 //   .route('/byRole/:role')

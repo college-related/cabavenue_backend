@@ -57,6 +57,18 @@ const searchRide = {
     lat: Joi.number().required(),
     lng: Joi.number().required(),
   }),
+  body: Joi.object().keys({
+    source: Joi.object().keys({
+      name: Joi.string().required(),
+      latitude: Joi.number().required(),
+      longitude: Joi.number().required(),
+    }),
+    destination: Joi.object().keys({
+      name: Joi.string().required(),
+      latitude: Joi.number().required(),
+      longitude: Joi.number().required(),
+    }),
+  }),
 };
 
 module.exports = {

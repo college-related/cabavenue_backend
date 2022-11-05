@@ -20,6 +20,16 @@ const calculateDistance = (l1, l2, ln1, ln2) => {
   return d;
 }
 
+const calculatePrice = (distance) => {
+  const flagDown = 110;
+  if (distance <= 15) {
+    return distance * 50 + flagDown;
+  } else {
+    return distance * 37.5 + flagDown;
+  }
+}
+
 module.exports = {
   calculateDistance,
+  calculatePrice,
 }
