@@ -106,6 +106,7 @@ const getDriversByArea = async (areaId) => {
       name: user.name,
       vehicle: user.vehicleData,
       img: user.profileUrl,
+      phone: user.phone,
     }
   });
   return drivers;
