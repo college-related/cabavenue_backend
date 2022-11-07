@@ -3,18 +3,18 @@ const { deviceService } = require("../services");
 const catchAsync = require("../utils/catchAsync")
 
 const createDevice = catchAsync(async (req, res) => {
-  const area = await deviceService.createDevice(req.body);
-  res.status(httpStatus.CREATED).send(area);
+  const device = await deviceService.createDevice(req.body);
+  res.status(httpStatus.CREATED).send(device);
 })
 
 const getDevice = catchAsync(async (req, res) => {
-  const area = await deviceService.getDevice(req.params.deviceId);
-  res.status(httpStatus.OK).send(area);
+  const device = await deviceService.getDevice(req.params.deviceId);
+  res.status(httpStatus.OK).send(device);
 })
 
 const updateDevice = catchAsync(async (req, res) => {
-  const area = await deviceService.updateDevice(req.params.deviceId, req.body);
-  res.status(httpStatus.OK).send(area);
+  const device = await deviceService.updateDevice(req.params.deviceId, req.body);
+  res.status(httpStatus.OK).send(device);
 })
 
 const deleteDevice = catchAsync(async (req, res) => {

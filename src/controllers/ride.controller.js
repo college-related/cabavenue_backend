@@ -54,58 +54,60 @@ const updateRide = catchAsync(async (req, res) => {
 
   const ride = await Ride.findByIdAndUpdate(rideId, req.body, { new: true });
 
-  const driver = await userService.getUserById(ride.driver);
-  if(!driver){
-    throw new ApiError(httpStatus.NOT_FOUND, "Driver not found");
-  }
-  const passenger = await userService.getUserById(ride.passenger);
-  if(!passenger){
-    throw new ApiError(httpStatus.NOT_FOUND, "Passenger not found");
-  }
+  if(req.body.status != null) {
+    const driver = await userService.getUserById(ride.driver);
+    if(!driver){
+      throw new ApiError(httpStatus.NOT_FOUND, "Driver not found");
+    }
+    const passenger = await userService.getUserById(ride.passenger);
+    if(!passenger){
+      throw new ApiError(httpStatus.NOT_FOUND, "Passenger not found");
+    }
 
-  if(req.body.status === "accepted") {
-    driver.isInRide = true;
-    driver.isAvailable = false;
+    if(req.body.status === "accepted") {
+      driver.isInRide = true;
+      driver.isAvailable = false;
 
-    passenger.isInRide = true;
-  }else{
-    driver.isInRide = false;
-    driver.isAvailable = true;
-    driver.rideHistory.push({
-      source: ride.source.name,
-      destination: ride.destination.name,
-      price: ride.price,
-      driver: {
-        name: driver.name,
-        id: driver._id,
-      },
-      user: {
-        name: passenger.name,
-        id: passenger._id,
-      },
-      rating: 0,
-      createdAt: ride.createdAt,
-    });
+      passenger.isInRide = true;
+    }else{
+      driver.isInRide = false;
+      driver.isAvailable = true;
+      driver.rideHistory.push({
+        source: ride.source.name,
+        destination: ride.destination.name,
+        price: ride.price,
+        driver: {
+          name: driver.name,
+          id: driver._id,
+        },
+        user: {
+          name: passenger.name,
+          id: passenger._id,
+        },
+        rating: 0,
+        createdAt: ride.createdAt,
+      });
 
-    passenger.isInRide = false;
-    passenger.rideHistory.push({
-      source: ride.source.name,
-      destination: ride.destination.name,
-      price: ride.price,
-      driver: {
-        name: driver.name,
-        id: driver._id,
-      },
-      user: {
-        name: passenger.name,
-        id: passenger._id,
-      },
-      rating: 0,
-      createdAt: ride.createdAt,
-    });
+      passenger.isInRide = false;
+      passenger.rideHistory.push({
+        source: ride.source.name,
+        destination: ride.destination.name,
+        price: ride.price,
+        driver: {
+          name: driver.name,
+          id: driver._id,
+        },
+        user: {
+          name: passenger.name,
+          id: passenger._id,
+        },
+        rating: 0,
+        createdAt: ride.createdAt,
+      });
+    }
+    await driver.save();
+    await passenger.save();
   }
-  await driver.save();
-  await passenger.save();
 
   res.status(httpStatus.OK).send(ride);
 });
