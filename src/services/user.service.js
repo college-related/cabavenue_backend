@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const fetch = require('node-fetch');
 const config = require('../config/config');
-const { User, Area, Report } = require('../models');
+const { User, Area, Report, Ride } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -123,11 +123,13 @@ const getDashboard = async (user) => {
     }
   }
 
+  const rides = await Ride.find({ driver: user._id, status: 'completed', rating: { $exists: true } });
+
   if(user.rideHistory.length > 0) {
     dashboard = {
       totalRides: user.rideHistory.length,
       totalEarnings: user.rideHistory.reduce((total, ride) => total + ride.price, 0),
-      totalRating: calculateTotalRating(user.rideHistory),
+      totalRating: calculateTotalRating(rides),
       totalsToday: {
         totalRides: user.rideHistory.filter(ride => ride?.createdAt?.toDateString() === new Date().toDateString()).length,
         totalEarnings: user.rideHistory.reduce((total, ride) => total + (ride?.createdAt?.toDateString() === new Date().toDateString() ? ride.price : 0), 0),
@@ -138,17 +140,17 @@ const getDashboard = async (user) => {
   return dashboard;
 };
 
-const calculateTotalRating  = (rideHistory) => {
-  const totalZeroRating = rideHistory.filter(ride => ride.rating === 0).length * 0;
-  const totalOneRating = rideHistory.filter(ride => ride.rating === 1).length * 1;
-  const totalTwoRating = rideHistory.filter(ride => ride.rating === 2).length * 2;
-  const totalThreeRating = rideHistory.filter(ride => ride.rating === 3).length * 3;
-  const totalFourRating = rideHistory.filter(ride => ride.rating === 4).length * 4;
-  const totalFiveRating = rideHistory.filter(ride => ride.rating === 5).length * 5;
+const calculateTotalRating  = (rides) => {
+  const totalOneRating = rides.filter(ride => ride.rating === 1).length * 1;
+  const totalTwoRating = rides.filter(ride => ride.rating === 2).length * 2;
+  const totalThreeRating = rides.filter(ride => ride.rating === 3).length * 3;
+  const totalFourRating = rides.filter(ride => ride.rating === 4).length * 4;
+  const totalFiveRating = rides.filter(ride => ride.rating === 5).length * 5;
 
-  const totalRating = totalZeroRating + totalOneRating + totalTwoRating + totalThreeRating + totalFourRating + totalFiveRating;
 
-  return parseInt(totalRating / rideHistory.length);
+  const totalRating = totalOneRating + totalTwoRating + totalThreeRating + totalFourRating + totalFiveRating;
+
+  return parseInt(totalRating / rides.length);
 }
 
 const getAdminDashboard = async () => {
