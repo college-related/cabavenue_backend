@@ -1,7 +1,7 @@
 const httpStatus = require("http-status");
 const fetch = require("node-fetch");
 const config = require("../config/config");
-const { Ride } = require("../models");
+const { Ride, User } = require("../models");
 const { areaService, userService } = require("../services");
 const catchAsync = require("../utils/catchAsync");
 const { calculateDistance, calculatePrice } = require("../utils/rides");
@@ -48,6 +48,28 @@ const getRides = catchAsync(async (req, res) => {
 
   res.status(httpStatus.OK).send(rides);
 })
+
+const getCurrentRide = catchAsync(async (req, res) => {
+  const { userId } = req.params;
+
+  const ride = await Ride.findOne({ passenger: userId, status:  "accepted" });
+
+  const driver = await User.findById(ride.driver);
+
+  res.status(httpStatus.OK).send({
+    ride: ride,
+    driver: {
+      id: driver._id,
+      name: driver.name,
+      model: driver.vehicleData.model,
+      plateNumber: driver.vehicleData.plateNumber,
+      color: driver.vehicleData.color,
+      img: driver.profileUrl,
+      phone: driver.phone,
+    },
+    destination: ride.destination,
+  });
+});
 
 const updateRide = catchAsync(async (req, res) => {
   const { rideId } = req.params;
@@ -125,4 +147,5 @@ module.exports = {
   getRides,
   updateRide,
   deleteRide,
+  getCurrentRide,
 }

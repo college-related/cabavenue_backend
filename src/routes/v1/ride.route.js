@@ -20,6 +20,10 @@ router
   .get(auth(), rideController.getRides);
 
 router
+  .route('/current/:userId')
+  .get(auth(), rideController.getCurrentRide);
+
+router
   .route('/:lat/:lng')
   .post(auth(), validate(rideValidation.searchRide), rideController.searchRides);
 
