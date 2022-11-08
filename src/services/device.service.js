@@ -31,7 +31,8 @@ const deleteDevice = async (id) => {
   if(!device){
     throw new ApiError(httpStatus.NOT_FOUND, "Device not found");
   }
-  await device.remove();
+  device.user = null;
+  await device.save();
 }
 
 const notifyDevice = async (userId, body) => {
