@@ -1,6 +1,7 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
+const ApiError = require('../utils/ApiError');
 
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -17,6 +18,9 @@ const login = catchAsync(async (req, res) => {
   }
   if(email){
     user = await authService.loginUserWithEmailAndPassword(email, password);
+  }
+  if(!user.isEnabled){
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'User is disabled');
   }
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });
