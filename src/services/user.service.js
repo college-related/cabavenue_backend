@@ -175,7 +175,7 @@ const favoritePlaces = async (user, place) => {
         if(user.favoritePlaces[i].latitude !== place.latitude || user.favoritePlaces[i].longitude !== place.longitude) {
           const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${place.latitude}&lon=${place.longitude}&apiKey=${config.geoapify.key}`)
           const data = await res.json();
-          place['name'] = data.features[0].properties.name;
+          place['name'] = data.features[0].properties.road ?? data.features[0].properties.name;
         }else{
           place['name'] = user.favoritePlaces[i].name;
         }
@@ -186,7 +186,7 @@ const favoritePlaces = async (user, place) => {
   }else{
     const res = await fetch(`https://api.geoapify.com/v1/geocode/reverse?lat=${place.latitude}&lon=${place.longitude}&apiKey=${config.geoapify.key}`)
     const data = await res.json();
-    place['name'] = data.features[0].properties.name;
+    place['name'] = data.features[0].properties.road ?? data.features[0].properties.name;
 
     user.favoritePlaces.push(place);
   }
