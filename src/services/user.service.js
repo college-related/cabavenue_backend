@@ -115,7 +115,7 @@ const getDriversByArea = async (areaId) => {
 const getDashboard = async (user) => {
   let dashboard = {
     totalRides: 0,
-    totalEarnings: 0,
+    totalEarnings: 0.00001,
     totalRating: 0,
     totalsToday: {
       totalRides: 0,
